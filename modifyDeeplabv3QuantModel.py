@@ -1,5 +1,5 @@
 # !/usr/bin/env python
-# -*- coding: ytf-8 -*-
+# -*- coding: utf-8 -*-
 
 # This script is to modify the align_corners parameter of the ResizeBilinear operator,
 # and split the avgpool operator into 2 cascadede avgpool operators.
@@ -53,7 +53,7 @@ def changeResizeBilinear(dstGraph, srcNode):
     dstNode = dstGraph.node.add()
     dstNode.op = srcNode.op
     dstNode.name = srcNode.name
-    dstNode['align_corners'].b = False
+    dstNode.attr['align_corners'].b = False
     if 'half_pixel_centers' in srcNode.attr:
         dstNode.attr['half_pixel_centers'].CopyFrom(tf.AttrValue(b=srcNode.attr['half_pixel_centers'].b))
     if 'T' in srcNode.attr:
@@ -84,7 +84,7 @@ def initAvgPoolNode(dstNode, srcNode, newName, newInput, newStrides, newKsize):
     dstNode.op = 'AvgPool'
     dstNode.name = newName
     for inputItem in newInput:
-        dstNode.input.extend(inputItem)
+        dstNode.input.extend([inputItem])
     if 'T' in srcNode.attr:
         dstNode.attr['T'].CopyFrom(tf.AttrValue(type=srcNode.attr['T'].type))
     if 'data_format' in srcNode.attr:

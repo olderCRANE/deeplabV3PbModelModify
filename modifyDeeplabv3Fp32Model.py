@@ -1,5 +1,5 @@
 # !/usr/bin/env python
-# -*- coding: ytf-8 -*-
+# -*- coding: utf-8 -*-
 
 # This script is to modify the strides parameters of the avgpool operator in the model.
 # It was tested to work with tf 1.14 version on ubuntu system
@@ -52,7 +52,7 @@ def changeAvgPoolParam(dstGraph, srcNode):
         dstNode.input.extend([inputItem])
     if 'T' in srcNode.attr:
         dstNode.attr['T'].CopyFrom(tf.AttrValue(type=srcNode.attr['T'].type))
-    if 'data_fromat' in srcNode.attr:
+    if 'data_format' in srcNode.attr:
         dstNode.attr['data_format'].CopyFrom(tf.AttrValue(s=srcNode.attr['data_format'].s))
     if 'ksize' in srcNode.attr:
         dstNode.attr['ksize'].CopyFrom(tf.AttrValue(list=srcNode.attr['ksize'].list))
